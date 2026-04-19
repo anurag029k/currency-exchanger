@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Currency Exchanger</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 520px; margin: 60px auto; background: #f5f5f5; }
+        h1   { text-align: center; color: #333; }
+        .card { background: white; padding: 32px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,0.1); }
+        select, input[type=number] { width: 100%; padding: 10px; margin: 8px 0 16px; border: 1px solid #ccc; border-radius: 6px; font-size: 15px; }
+        .mode-row { display: flex; gap: 12px; margin-bottom: 20px; }
+        .mode-btn { flex: 1; padding: 12px; border: 2px solid #4a90e2; border-radius: 8px; background: white; color: #4a90e2; cursor: pointer; font-size: 14px; font-weight: bold; }
+        .mode-btn.active { background: #4a90e2; color: white; }
+        button[type=submit] { width: 100%; padding: 12px; background: #4a90e2; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; }
+        button[type=submit]:hover { background: #357abd; }
+        .result { margin-top: 24px; padding: 16px; background: #e8f4e8; border-radius: 8px; text-align: center; font-size: 18px; font-weight: bold; color: #2d6a2d; }
+        .error  { margin-top: 16px; padding: 12px; background: #fde8e8; border-radius: 8px; color: #a00; text-align: center; }
+        label   { font-weight: bold; color: #555; }
+        #amt-row { display: none; }
+    </style>
+</head>
+<body>
+<h1>Welcome To Currency Exchanger</h1>
+<div class="card">
+    <form action="/convert" method="post">
+
+        <div class="mode-row">
+            <button type="button" class="mode-btn active" id="btn1" onclick="setMode(1)">
+                Check Currency
+            </button>
+            <button type="button" class="mode-btn" id="btn2" onclick="setMode(2)">
+                Convert Currency
+            </button>
+        </div>
+        <input type="hidden" name="Response" id="ResponseInput" value="1"/>
+
+        <label>First Currency </label>
+        <select name="cr1">
+            <option th:each="c : ${Currency}" th:value="${c}" th:text="${c}"
+                    th:selected="${c == cr1}"/>
+        </select>
+
+        <label>Second Currency </label>
+        <select name="cr2">
+            <option th:each="c : ${Currency}" th:value="${c}" th:text="${c}"
+                    th:selected="${c == cr2}"/>
+        </select>
+
+        <div id="amt-row">
+            <label>Amount (amt)</label>
+            <input type="number" name="amt" min="1" placeholder="Enter amount"/>
+        </div>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <div class="result" th:if="${result}" th:text="${result}"></div>
+    <div class="error"  th:if="${error}"  th:text="${error}"></div>
+</div>
+
+<script>
+    const savedResponse = /*[[${Response}]]*/ 1;
+    if (savedResponse == 2) setMode(2);
+
+    function setMode(m) {
+        document.getElementById('ResponseInput').value = m;
+        document.getElementById('amt-row').style.display = (m == 2) ? 'block' : 'none';
+        document.getElementById('btn1').classList.toggle('active', m == 1);
+        document.getElementById('btn2').classList.toggle('active', m == 2);
+    }
+</script>
+</body>
+</html>
