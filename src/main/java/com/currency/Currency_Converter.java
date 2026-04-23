@@ -45,7 +45,7 @@ public class Currency_Converter {
         double r1 = Rate[cur_From];
         double r2 = Rate[cur_To];
         if (flag1 == true && flag2 == true) {
-            return (r1 / r2);
+            return (r2 / r1);
         }
         return -1;
     }
