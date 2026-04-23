@@ -36,7 +36,7 @@ public class CurrencyController {
                 model.addAttribute("error", "Invalid currency code.");
             else
                 model.addAttribute("result",
-                        "1 " + cr1 + " ->  VALUE IN " + cr2 + " = " + result);
+                        "1 " + cr2 + " ->  VALUE IN " + cr1 + " = " + result);
 
         } else if (Response == 2) {
             double result = converter.convert(cr1, cr2, amt);
@@ -44,7 +44,7 @@ public class CurrencyController {
                 model.addAttribute("error", "Invalid currency code.");
             else
                 model.addAttribute("result",
-                        "from " + cr1 + " ->  to " + cr2 + " = " + result);
+                        "from " + cr2 + " ->  to " + cr1 + " = " + result);
         }
 
         return "index";
